@@ -51,6 +51,7 @@ yabai -m rule --add app="installer" manage=off sub-layer=normal
 yabai -m rule --add app="YGO Omega" manage=off sub-layer=normal
 yabai -m rule --add app="Telegram" manage=off sub-layer=normal
 yabai -m rule --add app="Raycast" manage=off sub-layer=normal
+yabai -m rule --add app=".*\\.exe$" manage=off sub-layer=normal
 yabai -m rule --add app=".*" sub-layer=normal
 
 yabai -m rule --apply
@@ -125,7 +126,10 @@ yabai -m space 9 --label nine
 # yabai -m signal --add event=window_focused action="yabai -m window --toggle zoom-fullscreen"
 
 ## If I close the active window, focus on any other visible window.
-yabai -m signal --add event=window_destroyed action="bash ~/.config/yabai/scripts/windowFocusOnDestroy.sh"
+# DISABLED 2026-07-27: 此 signal 是觸控板手勢（Launchpad/顯示桌面）反覆卡死的元兇——
+# 關閉任何視窗時它下的 yabai focus 指令會在特定時機戳死 Dock 的手勢辨識器（macOS 26 實測可穩定重現）。
+# 若要恢復「關視窗自動聚焦」需求，請改用不會在 Dock 轉場期間發指令的實作。
+# yabai -m signal --add event=window_destroyed action="bash ~/.config/yabai/scripts/windowFocusOnDestroy.sh"
 
 # yabai -m signal --add event=space_changed action="export CUR_ACTIVE_APP=\"iTerm2\""
 
